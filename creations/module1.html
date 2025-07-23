@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord administrateur</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modules.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/tier1dash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights1/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors1/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index1.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../dashboards/creadash1.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="../login/login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+            <h1>Tableau de bord administrateur</h1>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <!-- Formulaire d'ajout déployable -->
+        <div class="add-module-container">
+            <button id="toggle-add-form" class="btn-add-toggle">➕ Ajouter un module</button>
+            <form id="add-form" class="add-form" style="display:none;">
+                <div class="form-row">
+                    <input type="text" id="add-idmodule" name="idmodule" placeholder="ID du module" required>
+                    <input type="text" id="add-nom" name="nom" placeholder="Nom du module" required>
+                    <select id="add-idfiliere" name="idfiliere" required>
+                        <option value="">Filière</option>
+                    </select>
+                    <select id="add-idclasse" name="idclasse" required>
+                        <option value="">Classe</option>
+                    </select>
+                    <select id="add-prof" name="prof" required>
+                        <option value="">Professeur</option>
+                    </select>
+                    <button type="submit" class="btn-add">Ajouter</button>
+                </div>
+            </form>
+        </div>
+
+        <main>
+            <div class="modules-section">
+                <h2 class="modules-title">Liste des modules</h2>
+                <div class="modules-filters">
+                    <input type="text" id="search-input" class="modules-search" placeholder="🔍 Rechercher un module, une classe, un prof...">
+                    <select id="filiere-filter" class="modules-select"><option value="">Toutes filières</option></select>
+                    <select id="classe-filter" class="modules-select"><option value="">Toutes classes</option></select>
+                    <select id="prof-filter" class="modules-select"><option value="">Tous professeurs</option></select>
+                    <button id="reset-filters" class="btn-reset" type="button">Réinitialiser les filtres</button>
+                </div>
+                <div class="modules-table-container">
+                    <table id="modules-table" class="modules-table">
+                        <thead>
+                            <tr>
+                                <th>ID Module</th>
+                                <th>Nom</th>
+                                <th>Filière</th>
+                                <th>Classe</th>
+                                <th>Professeur</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Les modules seront insérés ici par JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Admin Dashboard</p>
+        </footer>
+    </div>
+
+    <!-- Modal de modification de module -->
+    <div id="edit-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2>Modifier le module</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-idmodule" name="idmodule">
+                <div class="form-group">
+                    <label for="edit-nom">Nom du module</label>
+                    <input type="text" id="edit-nom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-idfiliere">Filière</label>
+                    <select id="edit-idfiliere" name="idfiliere" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-idclasse">Classe</label>
+                    <select id="edit-idclasse" name="idclasse" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-prof">Professeur</label>
+                    <select id="edit-prof" name="prof" required></select>
+                </div>
+                <button type="submit" class="btn-edit">Enregistrer</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inclusion du fichier JavaScript -->
+    <script src="script.js"></script>
+    <script src="modules.js"></script>
+</body>
+</html>

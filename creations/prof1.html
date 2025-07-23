@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Professeurs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/tier1dash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights1/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors1/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index1.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../dashboards/creadash1.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <main>
+            <h1>Gestion des Professeurs</h1>
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Professeurs</h2>
+                    <button class="btn-add" onclick="showAddProfForm()">+ Nouveau Professeur</button>
+                </div>
+                <div id="profAddForm" class="add-form" style="display: none;">
+                    <h4>Ajouter un professeur</h4>
+                    <form id="profForm" class="inline-form">
+                        <input type="text" name="idprof" placeholder="ID Prof" required>
+                        <input type="text" name="nom" placeholder="Nom" required>
+                        <input type="text" name="prenom" placeholder="Prénom" required>
+                        <input type="text" name="numcarteprof" placeholder="Numéro carte" required>
+                        <button type="submit" class="btn-save">Ajouter</button>
+                        <button type="button" class="btn-cancel" onclick="hideAddProfForm()">Annuler</button>
+                    </form>
+                </div>
+                <div class="table-container">
+                    <table id="profTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Prof</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Numéro carte</th>
+                            </tr>
+                        </thead>
+                        <tbody id="profTableBody">
+                            <!-- Les professeurs seront affichés ici -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Alger</p>
+        </footer>
+    </div>
+
+    <!-- Inclusion du JS -->
+    <script src="prof.js"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord administrateur</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="edt.css">
+</head>
+<body class="with-sidebar">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../acc create/createacc.html" class="sidebar-link">
+                <span class="icon">👥</span>Utilisateurs
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="../login/login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+    <main style="margin-left:260px; padding:20px;">
+        <h1>Emploi du temps (EDT)</h1>
+        <button id="add-edt-btn" style="margin-bottom:20px;">Ajouter un EDT</button>
+        <div style="margin-bottom: 20px;">
+            <label for="filiere-select">Filière :</label>
+            <select id="filiere-select"><option value="">Toutes</option></select>
+            <label for="classe-select" style="margin-left: 20px;">Classe :</label>
+            <select id="classe-select"><option value="">Toutes</option></select>
+            <label for="section-select" style="margin-left: 20px;">Section :</label>
+            <select id="section-select"><option value="">Toutes</option></select>
+            <label for="groupe-select" style="margin-left: 20px;">Groupe :</label>
+            <select id="groupe-select"><option value="">Tous</option></select>
+            <label for="jour-select" style="margin-left: 20px;">Jour :</label>
+            <select id="jour-select">
+                <option value="">Tous</option>
+                <option value="Dimanche">Dimanche</option>
+                <option value="Lundi">Lundi</option>
+                <option value="Mardi">Mardi</option>
+                <option value="Mercredi">Mercredi</option>
+                <option value="Jeudi">Jeudi</option>
+            </select>
+            <label for="idmodule-input" style="margin-left: 20px;">ID Module :</label>
+            <input type="text" id="idmodule-input" placeholder="ex: m03l2info">
+            <label for="nommodule-input" style="margin-left: 20px;">Nom Module :</label>
+            <input type="text" id="nommodule-input" placeholder="ex: Mathématiques">
+            <button id="reset-filters" style="margin-left: 20px;">Réinitialiser</button>
+        </div>
+        <table id="edt-table" border="1" cellpadding="8" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Module</th>
+                    <th>Groupe</th>
+                    <th>Jour</th>
+                    <th>Heure début</th>
+                    <th>Heure fin</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rempli dynamiquement par edt.js -->
+            </tbody>
+        </table>
+    </main>
+
+    <!-- Modal Ajout EDT -->
+    <div id="add-edt-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="close-add-edt-modal">&times;</span>
+            <h2>Ajouter un créneau EDT</h2>
+            <form id="add-edt-form">
+                <label>Filière :
+                    <select id="add-filiere" required></select>
+                </label><br>
+                <label>Classe :
+                    <select id="add-classe" required></select>
+                </label><br>
+                <label>Section :
+                    <select id="add-section" required></select>
+                </label><br>
+                <label>Groupe :
+                    <select id="add-groupe" required></select>
+                </label><br>
+                <label>Module :
+                    <select id="add-module" required></select>
+                </label><br>
+                <label>Jour :
+                    <select id="add-jour" required>
+                        <option value="Dimanche">Dimanche</option>
+                        <option value="Lundi">Lundi</option>
+                        <option value="Mardi">Mardi</option>
+                        <option value="Mercredi">Mercredi</option>
+                        <option value="Jeudi">Jeudi</option>
+                    </select>
+                </label><br>
+                <label>Heure début :
+                    <input type="time" id="add-debut" required>
+                </label><br>
+                <label>Heure fin :
+                    <input type="time" id="add-fin" required>
+                </label><br>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Suppression -->
+    <div id="delete-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" id="close-delete-modal">&times;</span>
+            <h2>Confirmation de suppression</h2>
+            <p>Voulez-vous vraiment supprimer cette ligne ?</p>
+            <button id="confirm-delete-btn">Oui, supprimer</button>
+            <button id="cancel-delete-btn">Annuler</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="edt.js"></script>
+</body>
+</html>

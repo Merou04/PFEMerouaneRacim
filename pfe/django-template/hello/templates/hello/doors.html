@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôle des Portes</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'hello/css/doors.css' %}">
+    <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+</head>
+<body class="with-sidebar" data-send-command-url="{% url 'send_command' %}" data-csrf-token="{{ csrf_token }}">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="http://localhost/dashboards/admindash.html" class="sidebar-link"><span class="icon">📊</span>Tableau de bord</a>
+            <a href="{% url 'lights' %}" class="sidebar-link"><span class="icon">💡</span>Lumières</a>
+            <a href="{% url 'doors' %}" class="sidebar-link active"><span class="icon">🚪</span>Portes</a>
+            <a href="http://localhost/abs/index.html" class="sidebar-link"><span class="icon">👤</span>Présences</a>
+            <a href="http://localhost/acc%20create/createacc.html" class="sidebar-link"><span class="icon">👥</span>Utilisateurs</a>
+            <a href="http://localhost/dashboards/creadash.html" class="sidebar-link"><span class="icon">📚</span>Gestion académique</a>
+            <a href="{% url 'cartes' %}" class="sidebar-link"><span class="icon">👨‍🎓</span>Gestion cartes</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="{% url 'home' %}" class="logout-link"><span class="icon">🚪</span>Déconnexion</a>
+        </div>
+    </aside>
+
+    <div class="main-content container mt-4">
+        <h1 class="mb-4">Gestion des Portes</h1>
+        <!-- Bouton de rafraîchissement manuel -->
+        <div class="text-end mb-3">
+            <button id="refresh-doors-btn" class="btn btn-outline-secondary">
+                🔄 Rafraîchir l’état des portes
+            </button>
+        </div>
+        <div class="row g-4">
+            <!-- Carte Porte 1 -->
+            <div class="col-md-6">
+                <div class="door-card card" id="door1-card">
+                    <h3>Porte 1</h3>
+                    <div class="door-state mb-3" id="door1-state">État actuel : <span class="badge bg-secondary">Inconnu</span></div>
+                    <div class="btn-group w-100 mb-2" role="group">
+                        <button class="btn btn-success door-btn" data-door="1" data-action="open">Ouvrir</button>
+                        <button class="btn btn-primary door-btn" data-door="1" data-action="auto">Auto</button>
+                        <button class="btn btn-warning door-btn" data-door="1" data-action="exit">Sortie seule</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Carte Porte 2 -->
+            <div class="col-md-6">
+                <div class="door-card card" id="door2-card">
+                    <h3>Porte 2</h3>
+                    <div class="door-state mb-3" id="door2-state">État actuel : <span class="badge bg-secondary">Inconnu</span></div>
+                    <div class="btn-group w-100 mb-2" role="group">
+                        <button class="btn btn-success door-btn" data-door="2" data-action="open">Ouvrir</button>
+                        <button class="btn btn-primary door-btn" data-door="2" data-action="auto">Auto</button>
+                        <button class="btn btn-warning door-btn" data-door="2" data-action="exit">Sortie seule</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contrôles globaux -->
+        <div class="global-controls mt-4">
+            <h4>Contrôles globaux</h4>
+            <div class="btn-group w-100 mb-2" role="group">
+                <button class="btn btn-success global-btn door-global" data-action="open">Ouvrir toutes</button>
+                <button class="btn btn-primary global-btn door-global" data-action="auto">Auto toutes</button>
+                <button class="btn btn-warning global-btn door-global" data-action="exit">Sortie seule toutes</button>
+            </div>
+        </div>
+        <!-- Affichage de la réponse -->
+        <div id="response" class="alert alert-info mt-4" style="display:none;"></div>
+    </div>
+
+    <script src="{% static 'hello/js/doors_lights.js' %}"></script>
+    <script src="{% static 'hello/js/script.js' %}"></script>
+    <script>
+    // Désactive/active tous les boutons portes pendant un check
+    function setDoorsButtonsDisabled(disabled) {
+        document.querySelectorAll('.door-btn, .global-btn.door-global').forEach(btn => {
+            btn.disabled = disabled;
+        });
+    }
+    window.doorsCheckStart = function() { setDoorsButtonsDisabled(true); };
+    window.doorsCheckEnd = function() { setDoorsButtonsDisabled(false); };
+    </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gestion academique</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights1/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors1/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="../login/login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+            <h1>Tableau de bord academique</h1>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                
+
+                <div class="main-controls">
+                    <h2>Gestion academique</h2>
+                    <div class="controls-grid">
+                        <a href="../creations/crea1.html" class="control-card">
+                            <h3>Gestion des filiere</h3>
+                            <p>Gérer gerer les filieres/les classss/...</p>
+                        </a>
+                        <a href="../creations/etudiant1.html" class="control-card">
+                            <h3>gerer les etudiant</h3>
+                            <p>ajouter/modifier un etudiant</p>
+                        </a>
+                        <a href="../creations/module1.html" class="control-card">
+                            <h3>gerer les module</h3>
+                            <p>ajouter/modifier un module</p>
+                        </a>
+                        <a href="../creations/edt1.html" class="control-card">
+                            <h3>gerer les edt</h3>
+                            <p>ajouter/modifier un edt</p>
+                        </a>
+                        <a href="../creations/prof1.html" class="control-card">
+                            <h3>gerer les prof</h3>
+                            <p>ajouter/modifier un prof</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Admin Dashboard</p>
+        </footer>
+    </div>
+
+    <!-- Inclusion du fichier JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

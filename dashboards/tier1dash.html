@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de bord administrateur</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/tier1dash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights1/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors1/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index1.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../dashboards/creadash1.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="../login/login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+            <h1>Tableau de bord administrateur</h1>
+            <div class="user-info">
+                <span class="user-name">Admin</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="dashboard-container">
+                <div class="welcome-section">
+                    <h2>Bienvenue, Admin</h2>
+                    <p>Gérez votre système depuis ce tableau de bord central.</p>
+                </div>
+
+                <div class="main-controls">
+                    <h2>Contrôles principaux</h2>
+                    <div class="controls-grid">
+                        <a href="http://127.0.0.1:8000/lights1/" class="control-card">
+                            <h3>Contrôle des lumières</h3>
+                            <p>Gérer l'éclairage de l'établissement</p>
+                        </a>
+                        <a href="http://127.0.0.1:8000/doors1/" class="control-card">
+                            <h3>Contrôle des portes</h3>
+                            <p>Gérer l'accès aux différentes zones</p>
+                        </a>
+                        <a href="../abs/index1.html" class="control-card">
+                            <h3>Contrôle de présence</h3>
+                            <p>Voir la présence des étudiants</p>
+                        </a>
+                        <a href="../dashboards/creadash1.html" class="control-card">
+                            <h3>Gestion académique</h3>
+                            <p>Gérer filières, etudiant, modules et edt</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Admin Dashboard</p>
+        </footer>
+    </div>
+
+    <!-- Inclusion du fichier JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

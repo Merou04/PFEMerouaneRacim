@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+}
+
+.door-selection, .door-control {
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.door-list {
+    margin: 15px 0;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.door-item {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.door-item:hover {
+    background-color: #eef;
+}
+
+.door-item.selected {
+    background-color: #e6f7ff;
+    border: 1px solid #91d5ff;
+}
+
+.door-item input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.door-loading {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
+
+.door-error {
+    text-align: center;
+    color: #d32f2f;
+    padding: 20px;
+}
+
+.door-empty {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+}
+
+.select-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.select-actions button {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.select-actions button:hover {
+    background-color: #e6e6e6;
+}
+
+#toggleButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#toggleButton:hover {
+    background-color: #45a049;
+}
+
+#toggleButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.lights {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.light {
+    width: 22%;
+    padding: 15px 0;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #ddd;
+    color: #666;
+    position: relative;
+}
+
+.light.active {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+#lightOpen.active { background-color: #4CAF50; }
+#lightHalfOpen.active { background-color: #FFC107; }
+#lightOutOnly.active { background-color: #FF9800; }
+#lightClosed.active { background-color: #F44336; }

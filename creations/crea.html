@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des entités académiques</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="table-style.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../acc create/createacc.html" class="sidebar-link">
+                <span class="icon">👥</span>Utilisateurs
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="login.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <main>
+            <h1>Gestion des entités académiques</h1>
+            
+            <!-- Actions globales -->
+            <div class="global-actions">
+                <button class="btn-reset" onclick="resetAllFilters()">Tout décocher</button>
+            </div>
+
+            <!-- Tableau des Filières -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Filières</h2>
+                    <button class="btn-add" onclick="showAddForm('filiere')">+ Nouvelle Filière</button>
+                </div>
+                
+                <div id="filiereAddForm" class="add-form" style="display: none;">
+                    <h4>Ajouter une filière</h4>
+                    <form id="filiereForm" class="inline-form">
+                        <input type="text" name="idfiliere" placeholder="ID Filière" required>
+                        <input type="text" name="nom" placeholder="Nom de la filière" required>
+                        <button type="submit" class="btn-save">Ajouter</button>
+                        <button type="button" class="btn-cancel" onclick="hideAddForm('filiere')">Annuler</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="filiereTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sélection</th>
+                                <th>ID Filière</th>
+                                <th>Nom</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="filiereTableBody">
+                            <tr>
+                                <td colspan="4" class="loading">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tableau des Classes -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Classes</h2>
+                    <button class="btn-add" onclick="showAddForm('classe')">+ Nouvelle Classe</button>
+                </div>
+                
+                <div id="classeAddForm" class="add-form" style="display: none;">
+                    <h4>Ajouter une classe</h4>
+                    <form id="classeForm" class="inline-form">
+                        <input type="hidden" name="idfiliere" id="classeFiliere">
+                        <select id="classeSelectFiliere" name="idfiliere_select" required onchange="updateClasseFiliere()">
+                            <option value="">Sélectionner une filière</option>
+                        </select>
+                        <input type="text" name="idclasse" placeholder="ID Classe" required>
+                        <button type="submit" class="btn-save">Ajouter</button>
+                        <button type="button" class="btn-cancel" onclick="hideAddForm('classe')">Annuler</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="classeTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sélection</th>
+                                <th>ID Classe</th>
+                                <th>Filière</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="classeTableBody">
+                            <tr>
+                                <td colspan="4" class="loading">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tableau des Sections -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Sections</h2>
+                    <button class="btn-add" onclick="showAddForm('section')">+ Nouvelle Section</button>
+                </div>
+                
+                <div id="sectionAddForm" class="add-form" style="display: none;">
+                    <h4>Ajouter une section</h4>
+                    <form id="sectionForm" class="inline-form">
+                        <input type="hidden" name="idfiliere" id="sectionFiliere">
+                        <input type="hidden" name="idclasse" id="sectionClasse">
+                        <select id="sectionSelectFiliere" name="idfiliere_select" required onchange="updateSectionSelects()">
+                            <option value="">Sélectionner une filière</option>
+                        </select>
+                        <select id="sectionSelectClasse" name="idclasse_select" required onchange="updateSectionClasse()">
+                            <option value="">Sélectionner une classe</option>
+                        </select>
+                        <input type="text" name="idsection" placeholder="ID Section" required>
+                        <button type="submit" class="btn-save">Ajouter</button>
+                        <button type="button" class="btn-cancel" onclick="hideAddForm('section')">Annuler</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="sectionTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Sélection</th>
+                                <th>ID Section</th>
+                                <th>Classe</th>
+                                <th>Filière</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectionTableBody">
+                            <tr>
+                                <td colspan="5" class="loading">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tableau des Groupes -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>Groupes</h2>
+                    <button class="btn-add" onclick="showAddForm('groupe')">+ Nouveau Groupe</button>
+                </div>
+                
+                <div id="groupeAddForm" class="add-form" style="display: none;">
+                    <h4>Ajouter un groupe</h4>
+                    <form id="groupeForm" class="inline-form">
+                        <input type="hidden" name="idfiliere" id="groupeFiliere">
+                        <input type="hidden" name="idclasse" id="groupeClasse">
+                        <input type="hidden" name="idsection" id="groupeSection">
+                        <select id="groupeSelectFiliere" name="idfiliere_select" required onchange="updateGroupeSelects()">
+                            <option value="">Sélectionner une filière</option>
+                        </select>
+                        <select id="groupeSelectClasse" name="idclasse_select" required onchange="updateGroupeClasse()">
+                            <option value="">Sélectionner une classe</option>
+                        </select>
+                        <select id="groupeSelectSection" name="idsection_select" required onchange="updateGroupeSection()">
+                            <option value="">Sélectionner une section</option>
+                        </select>
+                        <input type="text" name="idgroupe" placeholder="ID Groupe" required>
+                        <button type="submit" class="btn-save">Ajouter</button>
+                        <button type="button" class="btn-cancel" onclick="hideAddForm('groupe')">Annuler</button>
+                    </form>
+                </div>
+
+                <div class="table-container">
+                    <table id="groupeTable" class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID Groupe</th>
+                                <th>Section</th>
+                                <th>Classe</th>
+                                <th>Filière</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupeTableBody">
+                            <tr>
+                                <td colspan="5" class="loading">Chargement...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Alger</p>
+        </footer>
+    </div>
+
+    <!-- Inclusion des fichiers JavaScript -->
+    <script src="script.js"></script>
+    <script src="table-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,417 @@
+/* Styles pour la navigation en tableaux */
+.navigation-filters {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    gap: 20px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.filter-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 200px;
+}
+
+.filter-item label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+    font-size: 14px;
+}
+
+.filter-item select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.filter-item select:disabled {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.btn-reset {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    height: fit-content;
+}
+
+.btn-reset:hover {
+    background-color: #545b62;
+}
+
+/* Sections de tableaux */
+.table-section {
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.table-header {
+    background: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h2 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.btn-add {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.btn-add:hover {
+    background-color: #218838;
+}
+
+/* Formulaires d'ajout */
+.add-form {
+    background: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 20px;
+    animation: slideDown 0.3s ease;
+}
+
+.add-form h4 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+.inline-form {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.inline-form input[type="text"],
+.inline-form select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.inline-form input[type="text"]:focus,
+.inline-form select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.btn-save {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-save:hover {
+    background-color: #0056b3;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-cancel:hover {
+    background-color: #545b62;
+}
+
+/* Tableaux */
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.data-table thead {
+    background: #f8f9fa;
+}
+
+.data-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #495057;
+    border-bottom: 2px solid #dee2e6;
+    white-space: nowrap;
+}
+
+.data-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.data-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.loading {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 30px;
+    animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+.empty-message {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 30px;
+}
+
+/* Boutons d'actions */
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-edit {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-edit:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navigation-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-item {
+        min-width: auto;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .inline-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .inline-form input[type="text"],
+    .inline-form select {
+        min-width: auto;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .data-table {
+        font-size: 13px;
+    }
+    
+    .data-table th,
+    .data-table td {
+        padding: 8px;
+    }
+}
+
+/* Styles pour les données importantes */
+.highlight-id {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.muted-text {
+    color: #6c757d;
+    font-size: 13px;
+}
+/* ...existing code... */
+
+/* Actions globales */
+.global-actions {
+    background: white;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-show-all {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-show-all:hover {
+    background-color: #138496;
+}
+
+/* Styles pour les checkboxes */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #007bff;
+}
+
+.filter-checkbox:checked {
+    background-color: #007bff;
+}
+
+/* Lignes filtrées */
+.filtered-row {
+    background-color: #e3f2fd !important;
+    border-left: 4px solid #007bff;
+}
+
+.related-row {
+    background-color: #f0f8f0 !important;
+    border-left: 4px solid #28a745;
+}
+
+/* Animations pour les changements de filtre */
+.table-row-highlight {
+    transition: all 0.3s ease;
+}
+
+.fade-out {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+/* Indicateur de sélection active */
+.active-filter-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #007bff;
+    margin-left: 5px;
+    animation: pulse-blue 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-blue {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+/* Badge de comptage */
+.count-badge {
+    background-color: #6c757d;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.count-badge.active {
+    background-color: #007bff;
+}
+
+/* ...existing code... */

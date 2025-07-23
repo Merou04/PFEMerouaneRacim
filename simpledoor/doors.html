@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Door</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestion Portes</h1>
+        
+        <div class="door-selection">
+            <h2>Choisir portes</h2>
+            <div class="door-list" id="doorList">
+                <!-- Door list will be populated by JavaScript -->
+                <div class="door-loading">Loading doors...</div>
+            </div>
+            <div class="select-actions">
+                <button id="selectAllButton">Select tout</button>
+                <button id="deselectAllButton">Deselect tout</button>
+            </div>
+        </div>
+        
+        <div class="door-control">
+            <h2>etats</h2>
+            <button id="toggleButton" disabled>changer etat</button>
+            <div class="lights">
+                <div class="light" id="lightOpen">ouvert</div>
+                <div class="light" id="lightHalfOpen">semi ouvert</div>
+                <div class="light" id="lightOutOnly">sortie seul</div>
+                <div class="light" id="lightClosed">ferme</div>
+            </div>
+        </div>
+    </div>
+    <script src="scriptdoor.js"></script>
+</body>
+</html>

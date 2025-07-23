@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Étudiants</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="etudiantt.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../acc create/createacc.html" class="sidebar-link">
+                <span class="icon">👥</span>Utilisateurs
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="lights.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+            <h1>Gestion des Étudiants</h1>
+            <div class="user-info">
+                <span class="user-name">Karim Benzaim</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <main>
+            <div class="container">
+                <!-- Formulaire d'ajout d'étudiant -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Ajouter un nouvel étudiant</h2>
+                        <button id="toggle-form-btn" class="btn-toggle">
+                            <span class="icon">➕</span>Afficher le formulaire
+                        </button>
+                    </div>
+                    
+                    <div id="student-form-container" class="form-container" style="display: none;">
+                        <form id="student-form" class="student-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="idetu">ID Étudiant:</label>
+                                    <input type="text" id="idetu" name="idetu" required placeholder="ex: l2info009">
+                                </div>
+                                <div class="form-group">
+                                    <label for="numcarteetu">Numéro carte:</label>
+                                    <input type="text" id="numcarteetu" name="numcarteetu" required placeholder="ex: ETU209">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nom">Nom:</label>
+                                    <input type="text" id="nom" name="nom" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prenom">Prénom:</label>
+                                    <input type="text" id="prenom" name="prenom" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="filiere-select">Filière:</label>
+                                    <select id="filiere-select" name="idfiliere" required>
+                                        <option value="">Sélectionner une filière</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="classe-select">Classe:</label>
+                                    <select id="classe-select" name="idclasse" required>
+                                        <option value="">Sélectionner une classe</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="section-select">Section:</label>
+                                    <select id="section-select" name="idsection" required>
+                                        <option value="">Sélectionner une section</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="groupe-select">Groupe:</label>
+                                    <select id="groupe-select" name="idgroupe" required>
+                                        <option value="">Sélectionner un groupe</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="btn-submit">
+                                    <span class="icon">💾</span>Ajouter l'étudiant
+                                </button>
+                                <button type="reset" class="btn-reset">
+                                    <span class="icon">🔄</span>Réinitialiser
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Message de résultat -->
+                <div id="message" class="message" style="display: none;"></div>
+
+                <!-- Liste des étudiants -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Liste des étudiants</h2>
+                        <div class="filter-controls">
+                            <input type="text" id="search-input" placeholder="Rechercher par nom/prénom..." class="search-input">
+                            
+                            <select id="filter-filiere" class="filter-select">
+                                <option value="">Toutes les filières</option>
+                            </select>
+                            
+                            <select id="filter-classe" class="filter-select">
+                                <option value="">Toutes les classes</option>
+                            </select>
+                            
+                            <select id="filter-section" class="filter-select">
+                                <option value="">Toutes les sections</option>
+                            </select>
+                            
+                            <select id="filter-groupe" class="filter-select">
+                                <option value="">Tous les groupes</option>
+                            </select>
+                            
+                            <button onclick="resetFilters()" class="btn-secondary">
+                                <span class="icon">🔄</span>Réinitialiser
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="students-table" class="students-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Étudiant</th>
+                                    <th>Nom</th>
+                                    <th>Prénom</th>
+                                    <th>Carte</th>
+                                    <th>Filière</th>
+                                    <th>Classe</th>
+                                    <th>Section</th>
+                                    <th>Groupe</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-list">
+                                <tr>
+                                    <td colspan="9" class="loading">Chargement des données...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <!-- Pagination -->
+                        <div class="pagination">
+                            <button id="prev-page" class="btn-page" disabled>Précédent</button>
+                            <span id="page-info">Page 1 sur 1</span>
+                            <button id="next-page" class="btn-page" disabled>Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Système de gestion d'accès - Alger</p>
+        </footer>
+    </div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div id="delete-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Confirmer la suppression</h3>
+            <p>Êtes-vous sûr de vouloir supprimer cet étudiant ?</p>
+            <div class="modal-actions">
+                <button id="confirm-delete" class="btn-danger">Supprimer</button>
+                <button id="cancel-delete" class="btn-secondary">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de modification d'étudiant -->
+    <div id="edit-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>Modifier l'étudiant</h3>
+            <form id="edit-student-form">
+                <input type="hidden" id="edit-student-id" name="id">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-idetu">ID Étudiant:</label>
+                        <input type="text" id="edit-idetu" name="idetu" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-numcarteetu">Numéro carte:</label>
+                        <input type="text" id="edit-numcarteetu" name="numcarteetu" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-nom">Nom:</label>
+                        <input type="text" id="edit-nom" name="nom" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-prenom">Prénom:</label>
+                        <input type="text" id="edit-prenom" name="prenom" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-filiere-select">Filière:</label>
+                        <select id="edit-filiere-select" name="idfiliere" required>
+                            <option value="">Sélectionner une filière</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-classe-select">Classe:</label>
+                        <select id="edit-classe-select" name="idclasse" required>
+                            <option value="">Sélectionner une classe</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-section-select">Section:</label>
+                        <select id="edit-section-select" name="idsection" required>
+                            <option value="">Sélectionner une section</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-groupe-select">Groupe:</label>
+                        <select id="edit-groupe-select" name="idgroupe" required>
+                            <option value="">Sélectionner un groupe</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit">
+                        <span class="icon">💾</span>Modifier
+                    </button>
+                    <button type="button" id="cancel-edit" class="btn-secondary">
+                        <span class="icon">❌</span>Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inclusion des fichiers JavaScript -->
+    <script src="script.js"></script>
+    <script src="etudiant.js"></script>
+</body>
+</html>

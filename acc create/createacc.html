@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Utilisateurs</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
+    <link rel="stylesheet" href="forms.css">
+    <style>
+        /* Styles pour les icônes (remplaçant Font Awesome) */
+        .icon-dashboard:before { content: "📊"; }
+        .icon-light:before { content: "💡"; }
+        .icon-door:before { content: "🚪"; }
+        .icon-user:before { content: "👤"; }
+        .icon-users:before { content: "👥"; }
+        .icon-logout:before { content: "🔒"; }
+        .icon-edit:before { content: "✏️"; }
+        .icon-delete:before { content: "🗑️"; }
+        .icon-eye:before { content: "👁️"; }
+        .icon-eye-slash:before { content: "👁️‍🗨️"; }
+        .icon-search:before { content: "🔍"; }
+        .icon-save:before { content: "💾"; }
+        .icon-cancel:before { content: "❌"; }
+        .icon-reset:before { content: "↺"; }
+        .icon-menu:before { content: "☰"; }
+        .icon-warning:before { content: "⚠️"; }
+        .icon-success:before { content: "✅"; }
+        
+        .icon {
+            margin-right: 8px;
+            display: inline-block;
+        }
+
+        /* Styles pour le tri des colonnes */
+        .sortable {
+            cursor: pointer;
+            position: relative;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .sortable:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+
+        .sort-icons {
+            display: inline-flex;
+            flex-direction: column;
+            margin-left: 5px;
+            font-size: 10px;
+            line-height: 1;
+        }
+
+        .sort-asc,
+        .sort-desc {
+            color: #ccc;
+            transition: color 0.2s ease;
+        }
+
+        .sortable.asc .sort-asc {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .sortable.desc .sort-desc {
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .sortable.asc .sort-desc,
+        .sortable.desc .sort-asc {
+            color: #ccc;
+        }
+
+        /* Animation pour le changement de tri */
+        .accounts-table tbody {
+            transition: opacity 0.2s ease;
+        }
+
+        .sorting .accounts-table tbody {
+            opacity: 0.7;
+        }
+
+        /* Styles pour les messages d'alerte */
+        .alert {
+            padding: 12px 16px;
+            margin: 16px 0;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert .icon {
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        /* Styles pour les messages dans le tableau */
+        .loading-message,
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #666;
+        }
+
+        .error-message {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../acc create/createacc.html" class="sidebar-link">
+                <span class="icon">👥</span>Utilisateurs
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="\blop\login\login.html" class="logout-link">
+                <span class="icon icon-logout"></span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">
+                <span class="icon icon-menu"></span>
+            </button>
+            <h1>Gestion des Utilisateurs</h1>
+            <div class="user-info">
+                <span class="user-name">admin</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="icon icon-users"></span>Créer un nouveau compte</h2>
+                </div>
+                <!-- Affichage des messages -->
+                <div id="message-container"></div>
+                
+                <form id="create-account-form" action="process_account.php" method="post">
+                    <input type="hidden" name="action" value="create">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">Nom d'utilisateur:</label>
+                            <div class="input-with-icon">
+                                <span class="icon icon-user"></span>
+                                <input type="text" id="username" name="username" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">Mot de passe:</label>
+                            <div class="input-with-icon">
+                                <span class="icon icon-logout"></span>
+                                <input type="password" id="password" name="password" required>
+                                <button type="button" class="toggle-password">
+                                    <span></span>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar"></div>
+                                <span class="strength-text">Force du mot de passe</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirm_password">Confirmer le mot de passe:</label>
+                            <div class="input-with-icon">
+                                <span class="icon icon-logout"></span>
+                                <input type="password" id="confirm_password" name="confirm_password" required>
+                                <button type="button" class="toggle-password">
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="account_type">Type d'accès:</label>
+                            <div class="select-wrapper">
+                                <select id="account_type" name="account_type" required>
+                                    <option value="">Sélectionner un niveau d'accès</option>
+                                    <option value="1">Administrateur (Accès complet)</option>
+                                    <option value="2">Niveau 1 (Lumières, portes, présence)</option>
+                                    <option value="3">Niveau 2 (Présence uniquement)</option>
+                                    <option value="4">Niveau 3 (Lumières et portes)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button type="submit" class="primary-btn">
+                            <span class="icon icon-save"></span>Créer le compte
+                        </button>
+                        <button type="reset" class="secondary-btn">
+                            <span class="icon icon-reset"></span>Réinitialiser
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2><span class="icon icon-users"></span>Comptes existants</h2>
+                    <div class="search-bar">
+                        <div class="input-with-icon">
+                            <span class="icon icon-search"></span>
+                            <input type="text" id="search-accounts" placeholder="Rechercher un utilisateur...">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="accounts-table">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-column="account_id">
+                                    ID
+                                    <span class="sort-icons">
+                                        <span class="sort-asc">▲</span>
+                                        <span class="sort-desc">▼</span>
+                                    </span>
+                                </th>
+                                <th class="sortable" data-column="username">
+                                    Nom d'utilisateur
+                                    <span class="sort-icons">
+                                        <span class="sort-asc">▲</span>
+                                        <span class="sort-desc">▼</span>
+                                    </span>
+                                </th>
+                                <th class="sortable" data-column="type_name">
+                                    Type d'accès
+                                    <span class="sort-icons">
+                                        <span class="sort-asc">▲</span>
+                                        <span class="sort-desc">▼</span>
+                                    </span>
+                                </th>
+                                <th class="sortable" data-column="created_at">
+                                    Date de création
+                                    <span class="sort-icons">
+                                        <span class="sort-asc">▲</span>
+                                        <span class="sort-desc">▼</span>
+                                    </span>
+                                </th>
+                                <th class="sortable" data-column="last_login">
+                                    Dernière connexion
+                                    <span class="sort-icons">
+                                        <span class="sort-asc">▲</span>
+                                        <span class="sort-desc">▼</span>
+                                    </span>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="accounts-list">
+                            <!-- Les comptes seront chargés dynamiquement ici -->
+                            <tr>
+                                <td colspan="6" class="loading-message">Chargement des comptes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button id="prev-page" disabled><span class="icon icon-prev"></span>Précédent</button>
+                    <span id="page-info">Page 1</span>
+                    <button id="next-page">Suivant<span class="icon icon-next"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modales -->
+    <div id="edit-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="icon icon-edit"></span>Modifier l'utilisateur</h2>
+                <button class="close-modal"><span class="icon icon-cancel"></span></button>
+            </div>
+            <form id="edit-account-form" action="process_account.php" method="post">
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" id="edit-account-id" name="account_id" value="">
+                
+                <div class="form-group">
+                    <label for="edit-username">Nom d'utilisateur:</label>
+                    <div class="input-with-icon">
+                        <span class="icon icon-user"></span>
+                        <input type="text" id="edit-username" name="edit-username" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-password">Nouveau mot de passe:</label>
+                    <div class="input-with-icon">
+                        <span class="icon icon-logout"></span>
+                        <input type="password" id="edit-password" name="edit-password" placeholder="Laisser vide pour ne pas changer">
+                        <button type="button" class="toggle-password">
+                            <span class="icon icon-eye"></span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-acctype">Type d'accès:</label>
+                    <div class="select-wrapper">
+                        <select id="edit-acctype" name="edit-acctype" required>
+                            <option value="1">Administrateur (Accès complet)</option>
+                            <option value="2">Niveau 1 (Lumières, portes, présence)</option>
+                            <option value="3">Niveau 2 (Présence uniquement)</option>
+                            <option value="4">Niveau 3 (Lumières et portes)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="primary-btn">
+                        <span class="icon icon-save"></span>Enregistrer
+                    </button>
+                    <button type="button" class="secondary-btn cancel-edit">
+                        <span class="icon icon-cancel"></span>Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <div id="delete-modal" class="modal">
+        <div class="modal-content modal-confirm">
+            <div class="modal-header">
+                <h2><span class="icon icon-warning"></span>Confirmation</h2>
+                <button class="close-modal"><span class="icon icon-cancel"></span></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous sûr de vouloir supprimer cet utilisateur ?</p>
+                <p class="user-to-delete">Cette action est irréversible.</p>
+            </div>
+            <div class="modal-footer">
+                <form id="delete-account-form" action="process_account.php" method="post">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" id="delete-account-id" name="account_id" value="">
+                    <button type="submit" class="danger-btn confirm-delete">
+                        <span class="icon icon-delete"></span>Supprimer
+                    </button>
+                    <button type="button" class="secondary-btn cancel-delete">
+                        <span class="icon icon-cancel"></span>Annuler
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="sidebar.js"></script>
+    <script src="password-strength.js"></script>
+    <script src="user-management.js"></script>
+</body>
+</html>

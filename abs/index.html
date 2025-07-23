@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Système de Présence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="../dashboards/admindash.html" class="sidebar-link active">
+                <span class="icon">📊</span>Tableau de bord
+            </a>
+            <a href="http://127.0.0.1:8000/lights/" class="sidebar-link">
+                <span class="icon">💡</span>Lumières
+            </a>
+            <a href="http://127.0.0.1:8000/doors/" class="sidebar-link">
+                <span class="icon">🚪</span>Portes
+            </a>
+            <a href="../abs/index.html" class="sidebar-link">
+                <span class="icon">👤</span>Présences
+            </a>
+            <a href="../acc create/createacc.html" class="sidebar-link">
+                <span class="icon">👥</span>Utilisateurs
+            </a>
+            <a href="../dashboards/creadash.html" class="sidebar-link">
+                <span class="icon">📚</span>Gestion académique
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="lights.html" class="logout-link">
+                <span class="icon">🚪</span>Déconnexion
+            </a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <div class="main-content">
+        <header class="top-header">
+            <button id="sidebar-toggle" class="sidebar-toggle">☰</button>
+            <h1>Système de Gestion des Présences</h1>
+            <div class="user-info">
+                <span class="user-name">Karim Benzaim</span>
+                <span class="user-avatar">👤</span>
+            </div>
+        </header>
+        
+        <div class="container">
+            <div class="card">
+                <h2>Transfert des Données d'Assiduité</h2>
+                <p>Ce système permet de transférer les enregistrements de présence depuis le système d'entrée vers la base de données de présence.</p>
+                
+                <div class="stats">
+                    <div id="records-count">
+                        <span class="count">0</span>
+                        <span class="label">Enregistrements non traités</span>
+                    </div>
+                    <div id="processed-count">
+                        <span class="count">0</span>
+                        <span class="label">Enregistrements traités</span>
+                    </div>
+                </div>
+                
+                <button id="process-btn" class="primary-btn">Traiter les données</button>
+                <div id="result-message"></div>
+            </div>
+            
+            <div class="card">
+                <h2>Filtrer les enregistrements</h2>
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label for="filiere-filter">Filière:</label>
+                        <select id="filiere-filter">
+                            <option value="">Toutes les filières</option>
+                            <!-- Options will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="classe-filter">Classe:</label>
+                        <select id="classe-filter">
+                            <option value="">Toutes les classes</option>
+                            <!-- Options will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="groupe-filter">Groupe:</label>
+                        <select id="groupe-filter">
+                            <option value="">Tous les groupes</option>
+                            <!-- Options will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="student-filter">Étudiant:</label>
+                        <select id="student-filter">
+                            <option value="">Tous les étudiants</option>
+                            <!-- Options will be populated via JavaScript -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="status-filter">Statut:</label>
+                        <select id="status-filter">
+                            <option value="">Tous les statuts</option>
+                            <option value="0">Présent</option>
+                            <option value="1">Retard</option>
+                            <option value="2">Absent</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-start">Date début:</label>
+                        <input type="date" id="date-start">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-end">Date fin:</label>
+                        <input type="date" id="date-end">
+                    </div>
+                    
+                    <button id="filter-btn" class="primary-btn">Appliquer les filtres</button>
+                    <button id="reset-btn" class="secondary-btn">Réinitialiser</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>Enregistrements de présence</h2>
+                <div id="records-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Étudiant</th>
+                                <th>Module</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-list">
+                            <tr>
+                                <td colspan="5">Chargement des données...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination">
+                        <button id="prev-page" disabled>Précédent</button>
+                        <span id="page-info">Page 1</span>
+                        <button id="next-page">Suivant</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclusion du script pour la sidebar -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle sidebar on mobile
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const body = document.body;
+            
+            // Fonction pour fermer la sidebar
+            function closeSidebar() {
+                sidebar.classList.remove('active');
+                body.classList.remove('sidebar-open');
+            }
+            
+            // Fonction pour ouvrir la sidebar
+            function openSidebar() {
+                sidebar.classList.add('active');
+                body.classList.add('sidebar-open');
+            }
+            
+            // Toggle sidebar
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    if (sidebar.classList.contains('active')) {
+                        closeSidebar();
+                    } else {
+                        openSidebar();
+                    }
+                });
+            }
+            
+            // Fermer la sidebar lorsqu'on clique à l'extérieur sur mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth <= 992 && sidebar.classList.contains('active')) {
+                    const isClickInsideSidebar = sidebar.contains(event.target);
+                    const isClickOnToggle = sidebarToggle && sidebarToggle.contains(event.target);
+                    
+                    if (!isClickInsideSidebar && !isClickOnToggle) {
+                        closeSidebar();
+                    }
+                }
+            });
+            
+            // Fermer la sidebar lorsqu'on redimensionne la fenêtre au-delà de 992px
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 992 && sidebar.classList.contains('active')) {
+                    closeSidebar();
+                }
+            });
+        });
+    </script>
+    
+    <!-- Script original pour les fonctionnalités de présence -->
+    <script src="script.js"></script>
+</body>
+</html>

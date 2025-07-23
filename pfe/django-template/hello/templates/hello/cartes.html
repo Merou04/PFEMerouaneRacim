@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajout de carte - Calcul et envoi trame</title>
+    <link rel="stylesheet" href="{% static 'hello/css/style.css' %}">
+</head>
+<body class="with-sidebar">
+    <!-- Barre latérale commune -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>Gestion ESST</h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{% url 'home' %}" class="sidebar-link"><span class="icon">📊</span>Tableau de bord</a>
+            <a href="{% url 'lights' %}" class="sidebar-link"><span class="icon">💡</span>Lumières</a>
+            <a href="{% url 'doors' %}" class="sidebar-link"><span class="icon">🚪</span>Portes</a>
+            <a href="#" class="sidebar-link"><span class="icon">👤</span>Présences</a>
+            <a href="#" class="sidebar-link"><span class="icon">👥</span>Utilisateurs</a>
+            <a href="#" class="sidebar-link"><span class="icon">📚</span>Gestion académique</a>
+            <a href="#" class="sidebar-link"><span class="icon">👨‍🎓</span>Gestion étudiants</a>
+             <a href="{% url 'cartes' %}" class="sidebar-link"><span class="icon">👨‍🎓</span>Gestion cartes</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="{% url 'home' %}" class="logout-link"><span class="icon">🚪</span>Déconnexion</a>
+        </div>
+    </aside>
+
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <section class="checksum-section">
+            <h3>Envoyer une trame carte</h3>
+            <form id="tramForm">
+                <label for="codeCarte">Code carte :</label>
+                <input type="text" id="codeCarte" placeholder="ex: 12345678" required>
+                <button type="submit">Générer et envoyer</button>
+            </form>
+            <div id="tramResult"></div>
+        </section>
+    </main>
+    
+    <script>
+document.getElementById('tramForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const codeCarte = document.getElementById('codeCarte').value.trim();
+    if (!codeCarte) {
+        document.getElementById('tramResult').textContent = "Veuillez entrer un code carte.";
+        return;
+    }
+    const baseTrame = "AZC1" + codeCarte;
+    let checksum = 0;
+    for (let i = 0; i < baseTrame.length; i++) {
+        checksum ^= baseTrame.charCodeAt(i);
+    }
+    const trameFinale = baseTrame + checksum.toString(16).toUpperCase().padStart(2, '0');
+    document.getElementById('tramResult').innerHTML =
+        `<b>Trame générée :</b> <code>${trameFinale}</code><br>
+        <b>Checksum :</b> ${checksum} (hex: ${checksum.toString(16).toUpperCase()})<br>
+        <em>Envoi en cours...</em>`;
+
+    fetch("{% url 'send_trame' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}"
+        },
+        body: JSON.stringify({ trame: trameFinale })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "ok") {
+            document.getElementById('tramResult').innerHTML +=
+                `<br><b>Réponse ESP32 :</b><br><pre>${data.response}</pre>`;
+        } else {
+            document.getElementById('tramResult').innerHTML +=
+                `<br><span style="color:red;">Erreur : ${data.response}</span>`;
+        }
+    })
+    .catch(error => {
+        document.getElementById('tramResult').innerHTML +=
+            `<br><span style="color:red;">Erreur JS : ${error.message}</span>`;
+    });
+});
+</script>
+</body>
+</html>

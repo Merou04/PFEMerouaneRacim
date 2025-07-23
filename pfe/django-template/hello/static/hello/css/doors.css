@@ -1,0 +1,38 @@
+.door-card {
+    min-height: 220px;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    background: var(--background-white);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.door-card h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-dark);
+}
+
+.door-state {
+    font-size: 1.1rem;
+}
+
+.global-controls {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: var(--background-white);
+    border-radius: var(--card-radius);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+
+.global-controls h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-dark);
+}
+
+.btn-group .btn {
+    min-width: 120px;
+    font-weight: 500;
+}
